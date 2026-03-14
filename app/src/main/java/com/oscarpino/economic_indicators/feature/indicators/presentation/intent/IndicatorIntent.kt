@@ -1,7 +1,8 @@
 package com.oscarpino.economic_indicators.feature.indicators.presentation.intent
 
-interface  IndicatorIntent {
+sealed interface IndicatorIntent {
 
-    data object GetGenerationsIntent: IndicatorIntent
+    data object GetIndicatorsIntent: IndicatorIntent
+    data class GetIndicatorByIndicatorName(val indicatorName:String): IndicatorIntent
 
 }
