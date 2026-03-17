@@ -15,7 +15,7 @@ class IndicatorRepositoryImp(private val api: IndicatorApi): IndicatorRepository
 
             val response = api.getAllIndicators()
 
-            response.payload?.let {
+            response.body()?.let {
 
                 val indicators = Indicators(
 

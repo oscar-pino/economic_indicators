@@ -4,6 +4,8 @@ import androidx.lifecycle.viewModelScope
 import com.oscarpino.common.base.BaseResponse
 import com.oscarpino.common.base.BaseResult
 import com.oscarpino.common.base.BaseViewModel
+import com.oscarpino.domain.model.Indicator
+import com.oscarpino.domain.model.Indicators
 import com.oscarpino.domain.usecase.GetIndicatorsUseCase
 import com.oscarpino.economic_indicators.feature.indicators.presentation.intent.IndicatorIntent
 import com.oscarpino.economic_indicators.feature.indicators.presentation.intent.IndicatorIntent.GetIndicatorByIndicatorName
@@ -17,13 +19,9 @@ import javax.inject.Inject
 
 @HiltViewModel
 class IndicatorViewModel @Inject constructor(
-    val getIndicatorsUseCase: GetIndicatorsUseCase,
-    override val initialState: IndicatorState = IndicatorState()
-
+    val getIndicatorsUseCase: GetIndicatorsUseCase
 ) :
-    BaseViewModel<IndicatorState, IndicatorIntent>() {
-
-
+    BaseViewModel<IndicatorState, IndicatorIntent>(IndicatorState()) {
 
     override fun sendIntent(intent: IndicatorIntent) {
         handleIntent(intent)
@@ -34,8 +32,7 @@ class IndicatorViewModel @Inject constructor(
         when (intent) {
 
             is GetIndicatorsIntent -> {
-
-
+                getIndicators()
             }
 
             is GetIndicatorByIndicatorName -> {
@@ -47,32 +44,49 @@ class IndicatorViewModel @Inject constructor(
     }
 
     private fun getIndicators() {
-
-        viewModelScope.coroutineContext.cancelChildren()
-
         viewModelScope.launch {
+            val response = getIndicatorsUseCase.execute()
 
-            _state.update {
-                it.copy(indicatorList = emptyList())
-            }
-
-            val indicatorResponse = getIndicatorsUseCase.execute()
-
-            when (indicatorResponse.result) {
+            when (response.result) {
 
                 BaseResult.SUCCESSFUL -> {
 
-
+                    response.payload?.let { indicators ->
+                        _state.update {
+                            it.copy(indicatorList = getIndicatorsList(indicators))
+                        }
+                    }
                 }
 
-                BaseResult.ERROR -> {
-
+                else -> {
 
                 }
-
-
             }
         }
     }
-
 }
+
+
+
+fun getIndicatorsList(indicators: Indicators):List<Indicator>{
+
+    val _indicators = mutableListOf<Indicator>()
+
+    with(_indicators){
+        add(indicators.uf)
+        add(indicators.ivp)
+        add(indicators.dolar)
+        add(indicators.dollarExchange)
+        add(indicators.euro)
+        add(indicators.ipc)
+        add(indicators.utm)
+        add(indicators.imacec)
+        add(indicators.tpm)
+        add(indicators.copperPound)
+        add(indicators.unemploymentMug)
+        add(indicators.bitcoin)
+
+    }
+    return _indicators
+}
+

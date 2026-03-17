@@ -72,4 +72,8 @@ dependencies {
 
     implementation ("com.google.dagger:hilt-android:2.57.1")
     ksp ("com.google.dagger:hilt-compiler:2.57.1")
+
+
+
+    implementation("io.nerdythings:okhttp-profiler:1.1.1")
 }
