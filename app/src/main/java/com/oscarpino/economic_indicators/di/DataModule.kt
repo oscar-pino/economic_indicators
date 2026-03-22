@@ -6,7 +6,7 @@ import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.android.components.ViewModelComponent
-import repository.IndicatorRepository
+import com.oscarpino.domain.repository.IndicatorRepository
 
 
 @Module

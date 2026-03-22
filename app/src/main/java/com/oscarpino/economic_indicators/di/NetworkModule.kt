@@ -1,7 +1,7 @@
 package com.oscarpino.economic_indicators.di
 
+import com.oscarpino.common.Constants
 import com.oscarpino.data.data.IndicatorApi
-import com.oscarpino.economic_indicators.data.Constants.BASE_URL
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -18,7 +18,7 @@ class NetworkModule {
     @Provides
     fun providesRetrofit(client: OkHttpClient): Retrofit {
         return Retrofit.Builder()
-            .baseUrl(BASE_URL)
+            .baseUrl(Constants.BASE_URL)
             .client(client)
             .addConverterFactory(GsonConverterFactory.create())
             .build()

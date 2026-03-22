@@ -19,9 +19,12 @@ data class Indicators (
 )
 
 data class Indicator(
-    val code:String,
-    val name:String,
-    val unitOfMeasure:String,
-    val date:String,
-    val value: Double
+    val code: String,
+    val name: String,
+    val unitOfMeasure: String,
+    val date: String,
+    val value: Double,
+    val serie: List<Serie>
 )
+
+data class Serie( val fecha:String, val valor:Float)
